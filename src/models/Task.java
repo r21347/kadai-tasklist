@@ -2,6 +2,8 @@ package models;
 
 import java.sql.Timestamp;
 
+//DTOクラス（データを格納するクラス）
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;

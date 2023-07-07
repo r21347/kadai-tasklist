@@ -32,11 +32,17 @@ public class IndexServlet extends HttpServlet {
      * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
      */
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        //EntityManagerのインスタンスを作成
         EntityManager em = DBUtil.createEntityManager();
 
+        //EntityManagerのメソッドcreateNamedQueryを使用して名前付きクエリを実行する
+        //getResultList()を使用してListで複数の結果を取得する
         List<Task> tasks = em.createNamedQuery("getAllTasks", Task.class).getResultList();
-        response.getWriter().append(Integer.valueOf(tasks.size()).toString());
 
+        //データの登録件数を取得する（おまじない）
+        response.getWriter().append(Integer.valueOf(tasks.size()).toString());
+        
+        //EntityManagerを解放
         em.close();
 
     }

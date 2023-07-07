@@ -4,6 +4,9 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 
+//DAOクラス（SQLを実行するクラス・おまじないのようなクラス）
+//PERSISTENCE_UNIT_NAMEをpersistence.xmlの名前と合わせる
+
 public class DBUtil {
     private static final String PERSISTENCE_UNIT_NAME = "tasklist";
     private static EntityManagerFactory emf;
