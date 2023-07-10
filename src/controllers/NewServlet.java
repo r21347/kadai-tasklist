@@ -1,9 +1,8 @@
 package controllers;
 
 import java.io.IOException;
-import java.sql.Timestamp;
 
-import javax.persistence.EntityManager;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -11,7 +10,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import models.Task;
-import utils.DBUtil;
 
 /**
  * Servlet implementation class NewServlet
@@ -32,7 +30,23 @@ public class NewServlet extends HttpServlet {
      * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
      */
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-      //EntityManagerのインスタンスを作成
+
+        // CSRF対策
+        request.setAttribute("_token", request.getSession().getId());
+
+        //JSPにデータを送る
+        // おまじないとしてのインスタンスを生成
+        //↑リクエストスコープに message が入っていなければエラーとなるため、
+        //画面表示時のエラー回避のため、とりあえず “文字数0のデータ” をフォームに渡すため
+        request.setAttribute("task", new Task());
+
+        //ビューとなるJSPを指定して表示する
+        RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/views/messages/new.jsp");
+        rd.forward(request, response);
+
+
+
+        /*      //EntityManagerのインスタンスを作成
         EntityManager em = DBUtil.createEntityManager();
         //EntityManagerのgetTransaction()メソッドのbegin()メソッドでトランザクションを開始する
         em.getTransaction().begin();
@@ -57,7 +71,7 @@ public class NewServlet extends HttpServlet {
         response.getWriter().append(Integer.valueOf(t.getId()).toString());
 
         //EntityManagerを解放
-        em.close();
+        em.close();*/
     }
 
 }
