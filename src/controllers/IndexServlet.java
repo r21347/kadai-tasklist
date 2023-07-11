@@ -34,8 +34,14 @@ public class IndexServlet extends HttpServlet {
         //EntityManagerを解放
         em.close();
 
-        //JSPにDBから取得したデータを送る
+        //DBから取得したデータをリクエストスコープに保存
         request.setAttribute("tasks", tasks);
+        
+        //フラッシュメッセージがセッションスコープにセットされていたらリクエストスコープに保存する（セッションスコープからは削除）
+        if(request.getSession().getAttribute("flush") != null) {
+            request.setAttribute("flush", request.getSession().getAttribute("flush"));
+            request.getSession().removeAttribute("flush");
+        }
 
         //ビューとなるJSPを指定して表示する
         RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/views/tasks/index.jsp");

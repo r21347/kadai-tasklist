@@ -45,10 +45,16 @@ public class CreateServlet extends HttpServlet {
             Timestamp currentTime = new Timestamp(System.currentTimeMillis());
             t.setCreated_at(currentTime);
             t.setUpdated_at(currentTime);
+            
             //データベースに保存（persistメソッド：エンティティを永続化 = DBにレコードとして保存)
             em.persist(t);
+            
             //コミット
             em.getTransaction().commit();
+            
+            //フラッシュメッセージをセッションスコープに保存
+            request.getSession().setAttribute("flush", "登録が完了しました。");
+            
             //EntityManagerを解放
             em.close();
 
