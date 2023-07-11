@@ -14,13 +14,13 @@ import models.Task;
 import utils.DBUtil;
 
 
-@WebServlet("/show")
-public class ShowServlet extends HttpServlet {
+@WebServlet("/edit")
+public class EditServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
-    public ShowServlet() {
+
+    public EditServlet() {
         super();
-        // TODO Auto-generated constructor stub
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -37,10 +37,15 @@ public class ShowServlet extends HttpServlet {
         //内容のデータをリクエストスコープに登録
         request.setAttribute("task", t);
 
-        //ビューとなるJSPを指定して表示する
-        RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/views/tasks/show.jsp");
-        rd.forward(request, response);
+        //セッションIDをリクエストスコープに登録
+        request.setAttribute("_token", request.getSession().getId());
 
+        //タスクIDをセッションスコープに登録
+        request.getSession().setAttribute("task_id", t.getId());
+
+      //ビューとなるJSPを指定して表示する
+        RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/views/tasks/edit.jsp");
+        rd.forward(request, response);
     }
 
 }

@@ -38,7 +38,7 @@ public class IndexServlet extends HttpServlet {
         request.setAttribute("tasks", tasks);
 
         //ビューとなるJSPを指定して表示する
-        RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/views/messages/index.jsp");
+        RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/views/tasks/index.jsp");
         rd.forward(request, response);
     }
 

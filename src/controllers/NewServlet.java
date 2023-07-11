@@ -28,12 +28,12 @@ public class NewServlet extends HttpServlet {
 
         //JSPにデータを送る
         // おまじないとしてのインスタンスを生成
-        //↑リクエストスコープに message が入っていなければエラーとなるため、
+        //↑リクエストスコープに task が入っていなければエラーとなるため、
         //画面表示時のエラー回避のため、とりあえず “文字数0のデータ” をフォームに渡すため
         request.setAttribute("task", new Task());
 
         //ビューとなるJSPを指定して表示する
-        RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/views/messages/new.jsp");
+        RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/views/tasks/new.jsp");
         rd.forward(request, response);
 
         /*      //EntityManagerのインスタンスを作成
