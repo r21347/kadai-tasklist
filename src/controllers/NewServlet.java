@@ -11,24 +11,16 @@ import javax.servlet.http.HttpServletResponse;
 
 import models.Task;
 
-/**
- * Servlet implementation class NewServlet
- */
+
 @WebServlet("/new")
 public class NewServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
     public NewServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
 
-    /**
-     * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-     */
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
         // CSRF対策
@@ -43,8 +35,6 @@ public class NewServlet extends HttpServlet {
         //ビューとなるJSPを指定して表示する
         RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/views/messages/new.jsp");
         rd.forward(request, response);
-
-
 
         /*      //EntityManagerのインスタンスを作成
         EntityManager em = DBUtil.createEntityManager();

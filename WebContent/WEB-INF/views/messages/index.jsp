@@ -17,11 +17,13 @@
                     </a>
                     ：<c:out value="${task.content}" />
 
-                    <!-- 「/new」へのリンク表示 -->
-                    <p><a href="${pageContext.request.contextPath}/new">新規タスクの投稿</a></p>
-
                 </li>
             </c:forEach>
         </ul>
+
+        <!-- 「/new」へのリンク表示 -->
+        <p><a href="${pageContext.request.contextPath}/new">新規タスクの投稿</a></p>
+
+
     </c:param>
 </c:import>
