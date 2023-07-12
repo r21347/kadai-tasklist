@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.sql.Timestamp;
 
 import javax.persistence.EntityManager;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -11,6 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import models.Task;
+import models.validators.TaskValidator;
 import utils.DBUtil;
 
 @WebServlet("/create")
@@ -45,21 +47,38 @@ public class CreateServlet extends HttpServlet {
             Timestamp currentTime = new Timestamp(System.currentTimeMillis());
             t.setCreated_at(currentTime);
             t.setUpdated_at(currentTime);
-            
-            //データベースに保存（persistメソッド：エンティティを永続化 = DBにレコードとして保存)
-            em.persist(t);
-            
-            //コミット
-            em.getTransaction().commit();
-            
-            //フラッシュメッセージをセッションスコープに保存
-            request.getSession().setAttribute("flush", "登録が完了しました。");
-            
-            //EntityManagerを解放
-            em.close();
 
-            //indexページへリダイレクト（遷移）
-            response.sendRedirect(request.getContextPath() + "/index");
+            //バリデーションを実行してエラーがあったら新規登録のフォームに戻る
+            String error = TaskValidator.validate(t);
+
+            if(error != null) {
+                em.close();
+
+                //フォームに初期値を設定、さらにエラーメッセージを送る
+                request.setAttribute("_token", request.getSession().getId());
+                request.setAttribute("task", t);
+                request.setAttribute("error", error);
+
+                //ビューとなるJSPを指定して表示する
+                RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/views/tasks/new.jsp");
+                rd.forward(request, response);
+
+            }else {
+                    //データベースに保存（persistメソッド：エンティティを永続化 = DBにレコードとして保存)
+                    em.persist(t);
+
+                    //コミット
+                    em.getTransaction().commit();
+
+                    //フラッシュメッセージをセッションスコープに保存
+                    request.getSession().setAttribute("flush", "登録が完了しました。");
+
+                    //EntityManagerを解放
+                    em.close();
+
+                    //indexページへリダイレクト（遷移）
+                    response.sendRedirect(request.getContextPath() + "/index");
+            }
         }
     }
 }
